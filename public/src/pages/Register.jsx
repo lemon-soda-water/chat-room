@@ -47,7 +47,7 @@ export default function Register() {
       toast.error("用户名应该大于3个字符", toastOption);
       return false
     }else if(password.length < 8) {
-      toast.error("用户名应该大于8个字符", toastOption);
+      toast.error("密码应该大于8个字符", toastOption);
       return false
     }else if(email.length === 0) {
       toast.error("邮箱是必须填写的", toastOption);
