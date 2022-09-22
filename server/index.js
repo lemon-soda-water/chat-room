@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const userRouter  = require('../server/routes/userRoutes.js');
 
 // 创建服务器
 const app = express();
@@ -12,6 +13,8 @@ require('dotenv').config();
 app.use(cors());
 // 将请求体转换为json对象
 app.use(express.json());
+
+app.use('/api/auth', userRouter)
 
 // 连接数据库
 mongoose.connect(process.env.MONGO_URL, {
