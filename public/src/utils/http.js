@@ -6,5 +6,5 @@ export const createUser = async (values) => {
 }
 
 export const login = async (values) => {
-  return await axios.get('/api/auth/login', values)
+  return await axios.post('/api/auth/login', values)
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.svg";
@@ -23,6 +23,12 @@ export default function Login() {
     theme: 'dark'
   }
 
+  useEffect(() => {
+    if(localStorage.getItem('chat-app-user')) {
+      // navigate('/')
+    }
+  }, [])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(handleValidation()) {
@@ -30,7 +36,7 @@ export default function Login() {
       if(data.status){
         localStorage.setItem('chat-app-user', JSON.stringify(data.user)) 
         navigate('/')
-      }  else {
+      } else {
         toast.error(data.msg, toastOption)
       } 
     }
