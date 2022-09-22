@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.svg";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,6 +7,9 @@ import {createUser} from '../utils/http';
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Register() {
+
+  const navigate = useNavigate();
+
   const [values, setValues] = useState({
     username: "",
     password: "",
@@ -22,10 +25,16 @@ export default function Register() {
     theme: 'dark'
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if(handleValidation()) {
-      createUser(values)
+      const {data} = await createUser(values)
+      if(data.status){
+        localStorage.setItem('chat-app-user', JSON.stringify(data.user)) 
+        navigate('/')
+      }  else {
+        toast.error(data.msg, toastOption)
+      } 
     }
   };
 
