@@ -4,11 +4,13 @@ import { getAllContacts } from "../utils/http";
 import styled from "styled-components";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
+import ChatContainer from "../components/ChatContainer";
 
 export default function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [currentChat, setCurrentChat] = useState(null);
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate();
 
@@ -17,6 +19,7 @@ export default function Chat() {
       navigate("/login");
     } else {
       setCurrentUser(JSON.parse(localStorage.getItem("chat-app-user")));
+      setIsLoading(true)
     }
   }, []);
 
@@ -35,14 +38,22 @@ export default function Chat() {
   }, [currentUser]);
 
   const handleChatChange = (chat) => {
-    setCurrentChat(chat)
-  }
+    setCurrentChat(chat);
+  };
 
   return (
     <Container>
       <div className="container">
-        <Contacts contacts={contacts} currentUser={currentUser} chatChage={handleChatChange}/>
-        <Welcome currentUser={currentUser} />
+        <Contacts
+          contacts={contacts}
+          currentUser={currentUser}
+          chatChage={handleChatChange}
+        />
+        {isLoading && currentChat === null ? (
+          <Welcome currentUser={currentUser} />
+        ) : (
+          <ChatContainer currentChat={currentChat} />
+        )}
       </div>
     </Container>
   );
