@@ -8,3 +8,7 @@ export const createUser = async (values) => {
 export const login = async (values) => {
   return await axios.post('/api/auth/login', values)
 }
+
+export const SetAvatarRoute = async (id, values) => {
+  return await axios.post(`/api/auth/set-avatar/${id}`, values)
+}

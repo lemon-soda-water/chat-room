@@ -1,6 +1,7 @@
 import Register from "../pages/Register";
 import Chat from "../pages/Chat";
 import Login from "../pages/Login";
+import SetAvatar from "../pages/SetAvatar";
 
 const routes = [
   {
@@ -12,8 +13,12 @@ const routes = [
     element: <Chat />,
   },
   {
-    path: "/Login",
+    path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/set-avatar",
+    element: <SetAvatar />,
   },
 ];
 
