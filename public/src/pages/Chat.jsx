@@ -1,12 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getAllContacts } from "../utils/http";
 import styled from "styled-components";
+import Contacts from "../components/Contacts";
 
 export default function Chat() {
+  const [contacts, setContacts] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("chat-app-user")) {
+      navigate("/login");
+    } else {
+      setCurrentUser(JSON.parse(localStorage.getItem("chat-app-user")));
+    }
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (currentUser) {
+        if (currentUser.isAvatarImageSet) {
+          const { data } = await getAllContacts(currentUser._id);
+
+          setContacts(data);
+        } else {
+          navigate("/set-avatar");
+        }
+      }
+    })();
+  }, [currentUser]);
+
   return (
     <Container>
-      <div className="container"></div>
+      <div className="container">
+        <Contacts contacts={contacts} currentUser={currentUser} />
+      </div>
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -28,4 +60,4 @@ const Container = styled.div`
       grid-template-columns: 35%, 65%;
     }
   }
-`
+`;
