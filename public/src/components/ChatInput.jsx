@@ -14,11 +14,11 @@ export default function ChatInput({ handleSendMsg }) {
 
   const sendChat = (e) => {
     e.preventDefault();
-    if(msg.length > 0) {
+    if (msg.length > 0) {
       handleSendMsg(msg);
-      setMsg('')
+      setMsg("");
     }
-  }
+  };
 
   return (
     <Container>
@@ -51,6 +51,10 @@ const Container = styled.div`
   background-color: #080420;
   padding: 0 2rem;
   padding-bottom: 0.3rem;
+  @media screen and(min-width: 720px) and(min-width: 1080px) {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
   .button-container {
     display: flex;
     align-items: center;
@@ -120,6 +124,12 @@ const Container = styled.div`
       align-items: center;
       cursor: pointer;
       background-color: #9a86f3;
+      @media screen and(min-width: 720px) and(min-width: 1080px) {
+        padding: 0.3rem 1rem;
+        svg {
+          font-size: 1rem;
+        }
+      }
       svg {
         font-size: 2rem;
         color: #fff;

@@ -1,5 +1,6 @@
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:5000";
+export const baseUrl = "http://localhost:5000"
+axios.defaults.baseURL = baseUrl;
 
 export const createUser = async (values) => {
   return await axios.post("/api/auth/register", values);
@@ -19,4 +20,8 @@ export const getAllContacts = async (id) => {
 
 export const sendMessageRoute = async (value) => {
   return await axios.post('/api/message/add-msg', value);
+};
+
+export const getMessageRoute = async (value) => {
+  return await axios.post('/api/message/get-msg', value);
 };

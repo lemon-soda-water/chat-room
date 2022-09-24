@@ -80,6 +80,7 @@ export default function SetAvatar() {
                 alt="avatar"
                 onClick={() => setSelectedAvatar(index)}
                 onLoad={imageLoad}
+                onError={imageLoad}
               />
             </div>
           ))}

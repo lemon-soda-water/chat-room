@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { getMessageRoute, sendMessageRoute } from "../utils/http";
 import ChatInput from "./ChatInput";
 import Logout from "./Logout";
+import {v4 as uuidv4} from 'uuid';
 
-export default function ChatContainer({ currentChat, currentUser }) {
+export default function ChatContainer({ currentChat, currentUser, socket }) {
   const [msgs, setMsgs] = useState([])
+  const [arrivalMsg, setArrivalMsg] = useState(null)
+  const scrollRef = useRef()
 
   useEffect(() => {
     if (currentChat && currentUser) {
@@ -26,7 +29,33 @@ export default function ChatContainer({ currentChat, currentUser }) {
       to: currentChat._id,
       message: msg
     })
+    socket.current.emit('send-msg', {
+      from:  currentUser._id,
+      to: currentChat._id,
+      message: msg
+    })
+
+    setMsgs([...msgs, {fromSelf: true, message: msg}])
   }
+
+  useEffect(() => {
+    if(socket?.current) {
+      socket.current.on('msg-recieve', (msg) => {
+        setArrivalMsg({
+          fromSelf: false,
+          message: msg
+        })
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    arrivalMsg && setMsgs((prev) => [...prev, arrivalMsg])
+  }, [arrivalMsg])
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({behaviour: "smooth"})
+  }, [msgs])
 
   return (
     currentChat && (
@@ -50,8 +79,8 @@ export default function ChatContainer({ currentChat, currentUser }) {
         </div>
         <div className="chat-message">
           {
-            msgs.map((msg, index) => (
-              <div key={index}>
+            msgs.map((msg) => (
+              <div key={uuidv4} ref={scrollRef}>
                 <div className={`message ${msg.fromSelf ? 'sended' : 'recieved'}`}>
                   <div className="content">
                     <p>
@@ -103,11 +132,19 @@ const Container = styled.div`
     flex-direction: column;
     gap: 1rem;
     overflow: auto;
+    &::-webkit-scrollbar {
+      width: 0.2rem;
+      &-thumb {
+        background-color: #fffddd39;
+        width: 0.1rem;
+        border-radius: 1rem;
+      }
+    }
     .message {
       display: flex;
       align-items: center;
       .content {
-        min-width: 40%;
+        max-width: 40%;
         overflow-wrap: break-word;
         padding: 1rem;
         font-size: 1.1rem;
