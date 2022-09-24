@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const userRouter  = require('../server/routes/userRoutes.js');
+const messageRouter  = require('../server/routes/messagesRoute.js');
 
 // 创建服务器
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', userRouter)
+app.use('/api/message', messageRouter)
 
 // 连接数据库
 mongoose.connect(process.env.MONGO_URL, {
