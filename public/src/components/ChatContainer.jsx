@@ -1,25 +1,33 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import Logout from "./Logout";
 
-export default function ChatContainer({currentChat}) {
+export default function ChatContainer({ currentChat }) {
   return (
-    currentChat && 
-    <Container>
-      <div className="chat-header">
-        <div className="user-details">
-        <div className="avatar">
-          <img src={currentChat.avatarImage || `https://api.multiavatar.com/moren.png`} alt="avatar" />
+    currentChat && (
+      <Container>
+        <div className="chat-header">
+          <div className="user-details">
+            <div className="avatar">
+              <img
+                src={
+                  currentChat.avatarImage ||
+                  `https://api.multiavatar.com/moren.png`
+                }
+                alt="avatar"
+              />
+            </div>
+            <div className="username">
+              <h3>{currentChat.username}</h3>
+            </div>
+          </div>
+          <Logout />
         </div>
-        <div className="username">
-          <h3>{currentChat.username}</h3>
-        </div>
-        </div>
-      </div>
-      <div className="chat-messages">
-      </div>
-      <div className="chat-input"></div>
-    </Container>
-  )
+        <div className="chat-messages"></div>
+        <div className="chat-input"></div>
+      </Container>
+    )
+  );
 }
 
 const Container = styled.div`
@@ -43,4 +51,4 @@ const Container = styled.div`
       }
     }
   }
-`
+`;
