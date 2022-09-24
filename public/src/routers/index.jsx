@@ -1,6 +1,8 @@
 import Register from "../pages/Register";
 import Chat from "../pages/Chat";
 import Login from "../pages/Login";
+import SetAvatar from "../pages/SetAvatar";
+import { Navigate } from "react-router-dom";
 
 const routes = [
   {
@@ -12,9 +14,17 @@ const routes = [
     element: <Chat />,
   },
   {
-    path: "/Login",
+    path: "/login",
     element: <Login />,
   },
+  {
+    path: "/set-avatar",
+    element: <SetAvatar />,
+  },
+  {
+    path: "/*",
+    element: <Navigate to='/login' />
+  }
 ];
 
 export default routes;
