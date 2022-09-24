@@ -1,8 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import { sendMessageRoute } from "../utils/http";
+import ChatInput from "./ChatInput";
 import Logout from "./Logout";
+import Messages from './Messages';
 
-export default function ChatContainer({ currentChat }) {
+export default function ChatContainer({ currentChat, currentUser }) {
+  
+  const handleSendMsg = async (msg) => {
+    sendMessageRoute({
+      from: currentUser._id,
+      to: currentChat._id,
+      message: msg
+    })
+  }
+
   return (
     currentChat && (
       <Container>
@@ -23,8 +35,8 @@ export default function ChatContainer({ currentChat }) {
           </div>
           <Logout />
         </div>
-        <div className="chat-messages"></div>
-        <div className="chat-input"></div>
+        <Messages />
+        <ChatInput handleSendMsg={handleSendMsg} />
       </Container>
     )
   );

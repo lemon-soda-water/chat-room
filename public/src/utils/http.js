@@ -16,3 +16,7 @@ export const SetAvatarRoute = async (id, values) => {
 export const getAllContacts = async (id) => {
   return await axios.get(`/api/auth/get-all-contacts/${id}`);
 };
+
+export const sendMessageRoute = async (value) => {
+  return await axios.post('/api/message/add-msg', value);
+};
